@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Guild of Gold Chest Game</title>
+  <title>Pick a chest!</title>
   <style>
     body {
       background-color: #111;
@@ -13,12 +13,27 @@
       align-items: center;
       justify-content: center;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(5, 100px);
-      gap: 10px;
-      margin-top: 20px;
+
+    h1 {
+      margin-bottom: 10px;
     }
+
+    .grid-wrapper {
+      display: grid;
+      grid-template-columns: 30px repeat(5, 100px);
+      grid-template-rows: 30px repeat(5, 100px);
+      gap: 10px;
+    }
+
+    .label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      color: gold;
+    }
+
     .chest {
       width: 100px;
       height: 100px;
@@ -27,10 +42,12 @@
       cursor: pointer;
       position: relative;
     }
+
     .chest.opened {
       background-image: url('https://guildofgold.github.io/chest-open.png');
       cursor: default;
     }
+
     .result {
       position: absolute;
       top: 35%;
@@ -41,9 +58,11 @@
       color: gold;
       text-shadow: 1px 1px 2px black;
     }
+
     .result.fail {
       color: #888;
     }
+
     button {
       margin-top: 20px;
       padding: 10px 20px;
@@ -57,8 +76,8 @@
   </style>
 </head>
 <body>
-  <h1>Guild of Gold Chest Game</h1>
-  <div class="grid" id="grid"></div>
+  <h1>Pick a chest!</h1>
+  <div class="grid-wrapper" id="grid"></div>
   <button onclick="startNewGame()">Start New Game</button>
 
   <script>
@@ -69,29 +88,33 @@
       prizeIndex = Math.floor(Math.random() * gridSize);
       const grid = document.getElementById('grid');
       grid.innerHTML = '';
-      for (let i = 0; i < gridSize; i++) {
-        const chest = document.createElement('div');
-        chest.className = 'chest';
-        chest.onclick = () => revealChest(chest, i);
-        grid.appendChild(chest);
+
+      // Add top row labels
+      grid.appendChild(document.createElement('div')); // empty corner
+      for (let col = 1; col <= 5; col++) {
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = col;
+        grid.appendChild(label);
+      }
+
+      // Add grid rows with side labels and chests
+      for (let row = 0; row < 5; row++) {
+        const rowLabel = document.createElement('div');
+        rowLabel.className = 'label';
+        rowLabel.textContent = String.fromCharCode(65 + row); // A–E
+        grid.appendChild(rowLabel);
+
+        for (let col = 0; col < 5; col++) {
+          const index = row * 5 + col;
+          const chest = document.createElement('div');
+          chest.className = 'chest';
+          chest.onclick = () => revealChest(chest, index);
+          grid.appendChild(chest);
+        }
       }
     }
 
     function revealChest(chest, index) {
       if (chest.classList.contains('opened')) return;
-      chest.classList.add('opened');
-      const result = document.createElement('div');
-      result.className = 'result';
-      if (index === prizeIndex) {
-        result.textContent = 'Winner!';
-      } else {
-        result.textContent = 'No Win';
-        result.classList.add('fail');
-      }
-      chest.appendChild(result);
-    }
-
-    startNewGame();
-  </script>
-</body>
-</html>
+      chest.class
