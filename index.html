@@ -18,11 +18,12 @@
       margin-bottom: 10px;
     }
 
-    .grid-wrapper {
+    .grid-container {
       display: grid;
       grid-template-columns: 30px repeat(5, 100px);
       grid-template-rows: 30px repeat(5, 100px);
       gap: 10px;
+      margin-top: 20px;
     }
 
     .label {
@@ -77,7 +78,7 @@
 </head>
 <body>
   <h1>Pick a chest!</h1>
-  <div class="grid-wrapper" id="grid"></div>
+  <div class="grid-container" id="grid"></div>
   <button onclick="startNewGame()">Start New Game</button>
 
   <script>
@@ -89,8 +90,8 @@
       const grid = document.getElementById('grid');
       grid.innerHTML = '';
 
-      // Add top row labels
-      grid.appendChild(document.createElement('div')); // empty corner
+      // Top row: empty corner + column labels
+      grid.appendChild(document.createElement('div'));
       for (let col = 1; col <= 5; col++) {
         const label = document.createElement('div');
         label.className = 'label';
@@ -98,23 +99,5 @@
         grid.appendChild(label);
       }
 
-      // Add grid rows with side labels and chests
-      for (let row = 0; row < 5; row++) {
-        const rowLabel = document.createElement('div');
-        rowLabel.className = 'label';
-        rowLabel.textContent = String.fromCharCode(65 + row); // A–E
-        grid.appendChild(rowLabel);
-
-        for (let col = 0; col < 5; col++) {
-          const index = row * 5 + col;
-          const chest = document.createElement('div');
-          chest.className = 'chest';
-          chest.onclick = () => revealChest(chest, index);
-          grid.appendChild(chest);
-        }
-      }
-    }
-
-    function revealChest(chest, index) {
-      if (chest.classList.contains('opened')) return;
-      chest.class
+      // Rows: row label + chests
+      for (let row
