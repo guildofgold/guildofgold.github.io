@@ -1,157 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pick a Chest!</title>
-  <style>
-    body {
-      background-color: #111;
-      font-family: 'Trebuchet MS', sans-serif;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding-top: 20px;
-    }
+  <meta charset="UTF-8">
+  <title>Pick a Chest!</title>
+  <style>
+    body {
+      background-color: #111;
+      font-family: 'Trebuchet MS', sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding-top: 20px;
+    }
 
-    h1 {
-      margin-bottom: 10px;
-    }
+    h1 {
+      margin-bottom: 10px;
+    }
 
-    .label-row {
-      display: flex;
-      margin-left: 110px;
-      gap: 10px;
-      margin-bottom: 5px;
-    }
+    .label-row {
+      display: flex;
+      margin-left: 110px;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
 
-    .label-col {
-      display: grid;
-      grid-template-rows: repeat(5, 100px);
-      gap: 10px;
-      margin-right: 10px;
-    }
+    .label-col {
+      display: grid;
+      grid-template-rows: repeat(5, 100px);
+      gap: 10px;
+      margin-right: 10px;
+    }
 
-    .label {
-      width: 100px;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 20px;
-      color: gold;
-    }
+    .label {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+      color: gold;
+    }
 
-    .grid-wrapper {
-      display: flex;
-    }
+    .grid-wrapper {
+      display: flex;
+    }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(5, 100px);
-      gap: 10px;
-    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 100px);
+      gap: 10px;
+    }
 
-    .chest {
-      width: 100px;
-      height: 100px;
-      background-image: url('https://guildofgold.github.io/chest-closed.png');
-      background-size: cover;
-      cursor: pointer;
-      position: relative;
-    }
+    .chest {
+      width: 100px;
+      height: 100px;
+      background-image: url('https://guildofgold.github.io/chest-closed.png');
+      background-size: cover;
+      cursor: pointer;
+      position: relative;
+    }
 
-    .chest.opened {
-      background-image: url('https://guildofgold.github.io/chest-open.png');
-      cursor: default;
-    }
+    .chest.opened {
+      background-image: url('https://guildofgold.github.io/chest-open.png');
+      cursor: default;
+    }
 
-    .result {
-      position: absolute;
-      top: 35%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 24px;
-      font-weight: bold;
-      color: gold;
-      text-shadow: 1px 1px 2px black;
-    }
+    .result {
+      position: absolute;
+      top: 50%; /* Changed from 35% to 50% for better centering with larger text */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 36px; /* Made bigger */
+      font-weight: bold;
+      color: gold;
+      text-shadow: -2px -2px 0 #000, 
+                    2px -2px 0 #000, 
+                    -2px 2px 0 #000, 
+                    2px 2px 0 #000; /* Black outline */
+    }
 
-    .result.fail {
-      color: red;
-    }
+    .result.fail {
+      color: red;
+    }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: gold;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: gold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h1>Pick a Chest!</h1>
+  <h1>Pick a Chest!</h1>
 
-  <div class="label-row">
-    <div class="label">1</div>
-    <div class="label">2</div>
-    <div class="label">3</div>
-    <div class="label">4</div>
-    <div class="label">5</div>
-  </div>
+  <div class="label-row">
+    <div class="label">1</div>
+    <div class="label">2</div>
+    <div class="label">3</div>
+    <div class="label">4</div>
+    <div class="label">5</div>
+  </div>
 
-  <div class="grid-wrapper">
-    <div class="label-col">
-      <div class="label">A</div>
-      <div class="label">B</div>
-      <div class="label">C</div>
-      <div class="label">D</div>
-      <div class="label">E</div>
-    </div>
+  <div class="grid-wrapper">
+    <div class="label-col">
+      <div class="label">A</div>
+      <div class="label">B</div>
+      <div class="label">C</div>
+      <div class="label">D</div>
+      <div class="label">E</div>
+    </div>
 
-    <div class="grid" id="grid"></div>
-  </div>
+    <div class="grid" id="grid"></div>
+  </div>
 
-  <button onclick="startNewGame()">Start New Game</button>
+  <button onclick="startNewGame()">Start New Game</button>
 
-  <script>
-    const gridSize = 25;
-    let prizeIndex = -1;
+  <script>
+    const gridSize = 25;
+    let prizeIndex = -1;
 
-    function startNewGame() {
-      prizeIndex = Math.floor(Math.random() * gridSize);
-      const grid = document.getElementById('grid');
-      grid.innerHTML = '';
-      for (let i = 0; i < gridSize; i++) {
-        const chest = document.createElement('div');
-        chest.className = 'chest';
-        chest.onclick = () => revealChest(chest, i);
-        grid.appendChild(chest);
-      }
-    }
+    function startNewGame() {
+      prizeIndex = Math.floor(Math.random() * gridSize);
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      for (let i = 0; i < gridSize; i++) {
+        const chest = document.createElement('div');
+        chest.className = 'chest';
+        chest.onclick = () => revealChest(chest, i);
+        grid.appendChild(chest);
+      }
+    }
 
-    function revealChest(chest, index) {
-      if (chest.classList.contains('opened')) return;
-      chest.classList.add('opened');
-      const result = document.createElement('div');
-      result.className = 'result';
-      if (index === prizeIndex) {
-        result.textContent = 'Winner!';
-      } else {
-        result.textContent = 'No Win';
-        result.classList.add('fail');
-      }
-      chest.appendChild(result);
-    }
+    function revealChest(chest, index) {
+      if (chest.classList.contains('opened')) return;
+      chest.classList.add('opened');
+      const result = document.createElement('div');
+      result.className = 'result';
+      if (index === prizeIndex) {
+        result.textContent = 'Winner!';
+      } else {
+        result.textContent = 'No Win';
+        result.classList.add('fail');
+      }
+      chest.appendChild(result);
+    }
 
-    startNewGame();
-  </script>
+    startNewGame();
+  </script>
 </body>
 </html>
